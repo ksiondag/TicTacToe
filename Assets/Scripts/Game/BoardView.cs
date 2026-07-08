@@ -4,6 +4,7 @@ using UnityEngine;
 public class BoardView : MonoBehaviour {
   public TicTacToeBoard board = new TicTacToeBoard();
   public GameObject[] cellObjects = new GameObject[9];
+  public GameObject turnObject;
 
   static readonly Dictionary<string, int> RowIndices = new Dictionary<string, int> {
     { "Top", 0 },
@@ -23,8 +24,16 @@ public class BoardView : MonoBehaviour {
     { 2, 90f },
   };
 
+  static readonly Dictionary<int, float> TurnRotation = new Dictionary<int, float> {
+    { 0, 270f },
+    { 1, 90f },
+  };
+
   void Awake() {
     foreach (Transform child in transform) {
+      if (child.name == "Turn") {
+        turnObject = child.gameObject;
+      }
       // Names look like "Cube (Top Left)" -> row/col words map to a 0-8 grid index.
       int openParen = child.name.IndexOf('(');
       int closeParen = child.name.IndexOf(')');
@@ -43,6 +52,7 @@ public class BoardView : MonoBehaviour {
       CellScript cellScript = child.gameObject.AddComponent<CellScript>();
       cellScript.SetIndex(index);
     }
+    RenderBoard();
   }
 
   public void OnMouseDownOnCell(int index) {
@@ -61,5 +71,8 @@ public class BoardView : MonoBehaviour {
       float rotation = CellRotation[cellValue];
       cellObject.transform.rotation = Quaternion.Euler(0f, rotation, 0f);
     }
+    int player = board.activePlayer;
+    float turnRotation = TurnRotation[player];
+    turnObject.transform.rotation = Quaternion.Euler(0f, turnRotation, 0f);
   }
 }
