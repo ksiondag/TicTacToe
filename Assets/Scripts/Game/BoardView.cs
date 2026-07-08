@@ -5,6 +5,7 @@ public class BoardView : MonoBehaviour {
   public TicTacToeBoard board = new TicTacToeBoard();
   public GameObject[] cellObjects = new GameObject[9];
   public GameObject turnObject;
+  public GameObject statusObject;
 
   static readonly Dictionary<string, int> RowIndices = new Dictionary<string, int> {
     { "Top", 0 },
@@ -33,6 +34,9 @@ public class BoardView : MonoBehaviour {
     foreach (Transform child in transform) {
       if (child.name == "Turn") {
         turnObject = child.gameObject;
+      }
+      if (child.name == "Status") {
+        statusObject = child.gameObject;
       }
       // Names look like "Cube (Top Left)" -> row/col words map to a 0-8 grid index.
       int openParen = child.name.IndexOf('(');
@@ -74,5 +78,6 @@ public class BoardView : MonoBehaviour {
     int player = board.activePlayer;
     float turnRotation = TurnRotation[player];
     turnObject.transform.rotation = Quaternion.Euler(0f, turnRotation, 0f);
+    statusObject.GetComponent<StatusView>().SetStatusRotation(board.terminal, board.winner);
   }
 }
