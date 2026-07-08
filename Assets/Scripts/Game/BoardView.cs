@@ -80,4 +80,9 @@ public class BoardView : MonoBehaviour {
     turnObject.transform.rotation = Quaternion.Euler(0f, turnRotation, 0f);
     statusObject.GetComponent<StatusView>().SetStatusRotation(board.terminal, board.winner);
   }
+
+  public void Reset() {
+    board.Reset();
+    RenderBoard();
+  }
 }
