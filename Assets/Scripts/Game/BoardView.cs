@@ -54,6 +54,7 @@ public class BoardView : MonoBehaviour {
       cellObjects[index] = child.gameObject;
 
       CellScript cellScript = child.gameObject.AddComponent<CellScript>();
+      RotateAnimation rotateScript = child.gameObject.AddComponent<RotateAnimation>();
       cellScript.SetIndex(index);
     }
     RenderBoard();
@@ -73,7 +74,9 @@ public class BoardView : MonoBehaviour {
       CellScript cellScript = cellObject.GetComponent<CellScript>();
       int cellValue = board.cells[cellScript.index];
       float rotation = CellRotation[cellValue];
-      cellObject.transform.rotation = Quaternion.Euler(0f, rotation, 0f);
+      //cellObject.transform.rotation = Quaternion.Euler(0f, rotation, 0f);
+      RotateAnimation rotateScript = cellObject.GetComponent<RotateAnimation>();
+      rotateScript.SetTargetRotation(rotation);
     }
     int player = board.activePlayer;
     float turnRotation = TurnRotation[player];
