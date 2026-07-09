@@ -21,7 +21,7 @@ public class BoardView : MonoBehaviour {
 
   static readonly Dictionary<int, float> CellRotation = new Dictionary<int, float> {
     { 0, 0f },
-    { 1, 270f },
+    { 1, -90f },
     { 2, 90f },
   };
 
